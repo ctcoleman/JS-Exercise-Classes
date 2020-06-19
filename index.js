@@ -9,22 +9,24 @@
 
 // EXAMPLE SOLUTION CODE:
 class Airplane {
-  constructor(name) {
+  constructor (name) {
     this.name = name;
     this.isFlying = false;
   }
-  takeOff() {
-    this.isFlying = true;
+
+  takeOff () {
+    this.isFlying = true
   }
-  land() {
+
+  land () {
     this.isFlying = false;
   }
 }
 
 /*
-// 👇 COMPLETE YOUR WORK BELOW 👇
-// 👇 COMPLETE YOUR WORK BELOW 👇
-// 👇 COMPLETE YOUR WORK BELOW 👇
+👇 COMPLETE YOUR WORK BELOW 👇
+👇 COMPLETE YOUR WORK BELOW 👇
+👇 COMPLETE YOUR WORK BELOW 👇
 */
 
 /*
@@ -41,9 +43,52 @@ class Airplane {
 */
 
 class Person {
+  constructor (attributes) {
+    this.name = attributes.name
+    this.age = attributes.age
+    this.stomach = []
+  }
 
+  eat (food) {
+    if (this.stomach.length < 10) {
+      this.stomach.push(food)
+    }
+  }
+
+  poop () {
+    this.stomach = []
+  }
+
+  toString () {
+    return `${this.name}, ${this.age}`
+  }
 }
 
+const me = new Person ({
+  name: 'Chris',
+  age: 27
+})
+
+const you = new Person ({
+  name: 'Shay',
+  age: 25
+})
+
+console.log(me)
+console.log(you)
+console.log(me.stomach)
+console.log(you.stomach)
+
+me.eat('Banana')
+me.eat('Burger')
+you.eat('Salad')
+you.eat('Poo')
+console.log(me.stomach)
+console.log(you.stomach)
+me.poop()
+console.log(me.stomach)
+console.log(you.stomach)
+console.log(me.toString())
 /*
   TASK 2
     - Write a Car class whose constructor initializes `model` and `milesPerGallon` from arguments.
@@ -59,9 +104,47 @@ class Person {
 */
 
 class Car {
+  constructor (attributes) {
+    this.model = attributes.model
+    this.milesPerGallon = attributes.milesPerGallon
+    this.tank = 0
+    this.odometer = 0
+  }
 
+  fill (gallons) {
+    this.tank += gallons
+    return `You filled the ${this.model} with ${gallons} gallons. The ${this.model} has ${this.tank} gallons in the tank.`
+  }
+
+  drive (distance) {
+    this.odometer += distance
+    const gallonsUsed = distance / this.milesPerGallon
+    this.tank -= gallonsUsed
+    if (this.tank <= 0) {
+      const emptyAt = this.odometer + this.tank
+      this.tank = 0
+      return `The ${this.model} ran out of fuel at ${emptyAt} miles`
+    } else {
+      return `You drove the ${this.model} ${distance} miles. It now has ${this.odometer} miles on the odometer.`
+    }
+  }
 }
 
+const myCar = new Car ({
+  model: 'Fusion',
+  milesPerGallon: 28
+})
+
+console.log(myCar)
+console.log(myCar.fill(20))
+console.log(myCar.drive(100))
+console.log(myCar.fill(5))
+console.log(myCar.drive(1000))
+console.log(myCar.fill(10))
+console.log(myCar.drive(300))
+console.log(myCar.fill(10))
+console.log(myCar.drive(50))
+console.log(myCar)
 /*
   TASK 3
     - Write a Lambdasian class.
@@ -75,6 +158,15 @@ class Car {
         + {name} and {location} of course come from the instance's own properties.
 */
 class Lambdasian {
+  constructor (att) {
+    this.name = att.name
+    this.age = att.age
+    this.location = att.location
+  }
+
+  speak () {
+    return `Hello my name is ${this.name}, I am from ${this.location}`
+  }
 
 }
 
@@ -92,8 +184,21 @@ class Lambdasian {
         + `demo` receives a `subject` string as an argument and returns the phrase 'Today we are learning about {subject}' where subject is the param passed in.
         + `grade` receives a `student` object and a `subject` string as arguments and returns '{student.name} receives a perfect score on {subject}'
 */
-class Instructor {
+class Instructor extends Lambdasian {
+  constructor(att) {
+    super(att)
+    this.specialty = att.specialty
+    this.favLanguage = att.favLanguage
+    this.catchPhrase = att.catchPhrase
+  }
 
+  demo (subject) {
+    return `Today we are learning about ${subject}`
+  }
+
+  grade (Student, subject) {
+    return `${Student.name} receives a perfect score on ${subject}` 
+  }
 }
 
 /*
@@ -111,7 +216,26 @@ class Instructor {
         + `PRAssignment` a method that receives a subject as an argument and returns `student.name has submitted a PR for {subject}`
         + `sprintChallenge` similar to PRAssignment but returns `student.name has begun sprint challenge on {subject}`
 */
-class Student {
+class Student extends Lambdasian {
+  constructor (att) {
+    super(att)
+    this.previousBackground = att.previousBackground
+    this.className = att.className
+    this.favSubjects = att.favSubjects
+    this.grade = att.grade
+  }
+
+  listSubjects () {
+    return `${this.favSubjects}`
+  }
+
+  PRAssignment (subject) {
+    return `${this.name} has submitted a PR for ${subject}`
+  }
+
+  sprintChallenge () {
+    return `${this.name} has begun sprint challenge on ${subject}`
+  }
 
 }
 
@@ -128,8 +252,20 @@ class Student {
         + `standUp` a method that takes in a slack channel and returns `{name} announces to {channel}, @channel standy times!`
         + `debugsCode` a method that takes in a student object and a subject and returns `{name} debugs {student.name}'s code on {subject}`
 */
-class ProjectManager {
+class ProjectManager extends Instructor {
+  constructor (att) {
+    super(att)
+    this.gradClassName = att.gradClassName
+    this.favInstructor = att.favInstructor
+  }
 
+  standUp (channel) {
+    return `${this.name} announces to ${channel}, @channel standy times!`
+  }
+
+  debugsCode (object, subject) {
+    return `${this.name} debugs ${Student.name}'s code on ${subject}`
+  }
 }
 
 /*
